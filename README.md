@@ -17,7 +17,7 @@ The payment gateway will need to provide merchants with a way to process a payme
   4. For security purpose, all request and response will encrypt with public key and decrypt with private key. IP will use to increase the security
 
 
-#Technology Stack
+# Technology Stack
 
 # API
 
