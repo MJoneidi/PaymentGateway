@@ -12,7 +12,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using Payment.Application;
+using Payment.Infrastructure;
+using Payment.Domain.Configuration;
 
 namespace Payment.API
 {
@@ -33,6 +38,29 @@ namespace Payment.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Payment.API", Version = "v1" });
             });
+            
+            services.AddInfrastructureServices(Configuration);
+            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(jwt => {
+                var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+
+                jwt.SaveToken = true;
+                jwt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true, // this will validate the 3rd part of the jwt token using the secret that we added in the appsettings and verify we have generated the jwt token
+                    IssuerSigningKey = new SymmetricSecurityKey(key), // Add the secret key to our Jwt encryption
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true
+                };
+            });
+
             services.AddApplicationServices(Configuration);
         }
 
@@ -49,6 +77,8 @@ namespace Payment.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
