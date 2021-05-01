@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Payment.Application.Commands;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 namespace Payment.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class PaymentsController : ControllerBase
     {
@@ -56,13 +59,7 @@ namespace Payment.API.Controllers
             var paymentRequestCommand = _mapper.Map<PaymentCommand>(paymentRequest);
             var commandResult = await _commandHandler.Handle(paymentRequestCommand);
 
-            switch (commandResult)
-            {
-
-
-                default:
-                    throw new NotSupportedException();
-            }
+            return Ok(commandResult);
         }
     }
 }

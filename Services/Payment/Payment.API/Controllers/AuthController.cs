@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -45,9 +47,10 @@ namespace Payment.API.Controllers
                     return BadRequest(new RegistrationResponse()
                     {
                         Result = false,
-                        Errors = new List<string>(){
-                                        "Invalid authentication request"
-                                    }
+                        Errors = new List<string>()
+                        {
+                           "Invalid authentication request"
+                        }
                     });
                 }
 

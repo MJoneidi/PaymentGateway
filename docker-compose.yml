@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  payment.api:
+    image: ${DOCKER_REGISTRY-}paymentapi
+    build:
+      context: .
+      dockerfile: Services/Payment/Payment.API/Dockerfile
+    ports:
+      - 7001:7001
+    volumes:
+      - //c/PaymentGateway/Logs:/Logs
+      - //c/PaymentGateway/Logs:/app/Logs
+    depends_on:
+      - sql.server
+
+  acquiringbank.api:
+    image: ${DOCKER_REGISTRY-}acquiringbankapi
+    build:
+      context: .
+      dockerfile: AcquiringBank/AcquiringBank.API/Dockerfile
+    ports:
+      - 7002:7002
+
+  sql.server:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"   
