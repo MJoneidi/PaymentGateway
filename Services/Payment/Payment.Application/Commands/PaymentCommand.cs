@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Payment.Application.Commands
@@ -11,9 +12,11 @@ namespace Payment.Application.Commands
         public PaymentCommand()
         { }
 
-        public Guid MerchantId { get; set; }
+        public Guid MerchantId { internal get; set; }
 
         
+        public Guid GatewayPaymentId { get; set; }
+
         public double Amount { get; set; }
 
        

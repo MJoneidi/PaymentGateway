@@ -31,16 +31,20 @@ namespace Payment.Application.BankAdaptors
         {
             try
             {
-                string jsonString = JsonConvert.SerializeObject(request);
-                string queryString = "";
+                request.GatewayPaymentId = _configurationOptions.GatewayPaymentId;
+
+                JsonSerializerSettings jsSettings = new JsonSerializerSettings();
+                jsSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+                string json = JsonConvert.SerializeObject(request, Formatting.None, jsSettings);           
 
                 HttpClient client = new HttpClient { BaseAddress = new Uri(_configurationOptions.Url) };
 
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(queryString, content);
+                HttpResponseMessage response = await client.PostAsync("", content);
 
                 if (response.IsSuccessStatusCode)
                 {
