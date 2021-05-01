@@ -18,9 +18,12 @@ namespace Payment.Infrastructure
             services.AddDbContext<PaymentDbContext>(options =>
               options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Payment.API")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                           .AddEntityFrameworkStores<PaymentDbContext>();
+                    .AddRoles<IdentityRole>()
+                    .AddEntityFrameworkStores<PaymentDbContext>();
 
-          //  services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+           
+         //   services.AddHostedService<SetupIdentityDataSeeder>();
+            //  services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
             return services;
         }

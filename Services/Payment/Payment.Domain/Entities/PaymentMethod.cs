@@ -17,7 +17,7 @@ namespace Payment.Domain.Entities
         [StringLength(3)]
         public string CurrencyCode { get; init; }
 
-        public decimal Amount { get; init; }
+        public double Amount { get; init; }
 
         [StringLength(5)]
         public string CardExpiry { get; init; }        

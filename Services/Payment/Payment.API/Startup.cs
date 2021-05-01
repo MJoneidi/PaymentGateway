@@ -18,6 +18,8 @@ using Microsoft.IdentityModel.Tokens;
 using Payment.Application;
 using Payment.Infrastructure;
 using Payment.Domain.Configuration;
+using Microsoft.AspNetCore.Identity;
+using Payment.Infrastructure.Data;
 
 namespace Payment.API
 {
@@ -65,7 +67,7 @@ namespace Payment.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, PaymentDbContext dbContext,  UserManager<IdentityUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -73,6 +75,7 @@ namespace Payment.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment.API v1"));
             }
+            StartupDbInitializer.SeedData(dbContext, userManager);
 
             app.UseHttpsRedirection();
 
