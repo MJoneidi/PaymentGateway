@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Payment.Domain.Configuration
 {
@@ -13,7 +9,7 @@ namespace Payment.Domain.Configuration
         {
             this.ConnectionString = configuration.GetConnectionString("ReadConnection");
             this.Url = configuration["AcquiringBank:Url"];
-            this.GatewayPaymentId= new Guid(configuration["AcquiringBank:GatewayPaymentId"]);
+            this.GatewayPaymentId = new Guid(configuration["AcquiringBank:GatewayPaymentId"]);
         }
         public string ConnectionString { get; init; }
         public string Url { get; init; }

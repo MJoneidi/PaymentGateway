@@ -3,12 +3,9 @@ using Newtonsoft.Json;
 using Payment.Application.Commands;
 using Payment.Application.Contracts;
 using Payment.Domain.Configuration;
-using Payment.Domain.DTO.Requests;
 using Payment.Domain.DTO.Response;
-using Payment.Domain.Models.Enums;
+using Payment.Domain.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -18,7 +15,7 @@ namespace Payment.Application.BankAdaptors
 {
     public class AcquiringBankAdapter : IAcquiringBankAdapter
     {
-        private readonly IConfigurationOptions _configurationOptions;      
+        private readonly IConfigurationOptions _configurationOptions;
         private readonly ILogger<AcquiringBankAdapter> _logger;
 
         public AcquiringBankAdapter(ILogger<AcquiringBankAdapter> logger, IConfigurationOptions configurationOptions)
@@ -36,7 +33,7 @@ namespace Payment.Application.BankAdaptors
                 JsonSerializerSettings jsSettings = new JsonSerializerSettings();
                 jsSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
-                string json = JsonConvert.SerializeObject(request, Formatting.None, jsSettings);           
+                string json = JsonConvert.SerializeObject(request, Formatting.None, jsSettings);
 
                 HttpClient client = new HttpClient { BaseAddress = new Uri(_configurationOptions.Url) };
 
@@ -60,11 +57,11 @@ namespace Payment.Application.BankAdaptors
                     //error handling
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
             }
-            return new PaymentResponse() { PaymentStatus = BankPaymentStatus.Rejected};
+            return new PaymentResponse() { PaymentStatus = PaymentStatus.Unsuccessful };
         }
     }
 }

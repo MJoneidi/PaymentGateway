@@ -6,12 +6,12 @@ using System.Linq;
 namespace Payment.Infrastructure.Data
 {
     public class StartupDbInitializer
-    {   
+    {
         private const string merchantEmail = "merchant@mail.com";
         private const string merchantPassword = "StrongPasswordMerchant123!";
 
         private static readonly List<IdentityRole> Roles = new List<IdentityRole>()
-        {          
+        {
             new IdentityRole {Name = "Merchant", NormalizedName = "MERCHANT", ConcurrencyStamp = Guid.NewGuid().ToString()}
         };
 
@@ -38,7 +38,7 @@ namespace Payment.Infrastructure.Data
         private static void AddUser(PaymentDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             if (!dbContext.Users.Any())
-            {  
+            {
                 var merchant = new IdentityUser
                 {
                     Id = new Guid().ToString(),
@@ -55,7 +55,7 @@ namespace Payment.Infrastructure.Data
                 merchant.PasswordHash = PassGenerate(merchant, merchantPassword);
 
                 userManager.CreateAsync(merchant).Wait();
-                dbContext.SaveChanges();               
+                dbContext.SaveChanges();
             }
         }
 
@@ -68,7 +68,7 @@ namespace Payment.Infrastructure.Data
         private static void AddUserRoles(PaymentDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             if (!dbContext.UserRoles.Any())
-            {   
+            {
                 var merchantRole = new IdentityUserRole<string>
                 {
                     UserId = dbContext.Users.Single(r => r.Email == merchantEmail).Id,

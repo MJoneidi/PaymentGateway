@@ -1,17 +1,13 @@
 ﻿using Payment.Domain.Enums;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Payment.Domain.Entities
-{    
-   public class PaymentMethod : BaseEntity
+{
+    public class PaymentMethod : BaseEntity
     {
         public Guid AcquiringBankId { get; init; }
-        public Guid MerchantId { get;  init; }
+        public Guid MerchantId { get; init; }
         public Guid TransactionId { get; init; }
 
         [StringLength(3)]
@@ -20,7 +16,7 @@ namespace Payment.Domain.Entities
         public double Amount { get; init; }
 
         [StringLength(5)]
-        public string CardExpiry { get; init; }        
+        public string CardExpiry { get; init; }
 
         public int CVV { get; init; }
 

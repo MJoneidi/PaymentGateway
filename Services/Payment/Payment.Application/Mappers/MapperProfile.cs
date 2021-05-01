@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using Payment.Application.Commands;
 using Payment.Domain.DTO.Requests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gateway.Business.Mappers
 {

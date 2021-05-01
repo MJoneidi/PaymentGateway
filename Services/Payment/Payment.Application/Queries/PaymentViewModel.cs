@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Payment.Application.Queries
 {
@@ -10,7 +6,7 @@ namespace Payment.Application.Queries
     {
         public Guid PaymentId { get; init; }
         public Guid GatewayPaymentId { get; init; }
-        public Card Card { get; init; } 
+        public Card Card { get; init; }
         public Money Amount { get; init; }
         public PaymentStatus Status { get; init; }
     }

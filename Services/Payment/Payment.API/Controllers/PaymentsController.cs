@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Payment.Application.Commands;
@@ -7,8 +6,6 @@ using Payment.Application.Commands.Contracts;
 using Payment.Application.Queries;
 using Payment.Domain.DTO.Requests;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -24,9 +21,9 @@ namespace Payment.API.Controllers
         private readonly IMapper _mapper;
 
         public PaymentsController(ILogger<PaymentsController> logger, IPaymentQueries paymentQueries, ICommandHandler<PaymentCommand> commandHandler, IMapper modelMapper)
-        {            
+        {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler)); 
+            _commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
             _paymentQueries = paymentQueries ?? throw new ArgumentNullException(nameof(paymentQueries));
             _mapper = modelMapper ?? throw new ArgumentNullException(nameof(modelMapper));
         }
@@ -39,7 +36,7 @@ namespace Payment.API.Controllers
         public async Task<ActionResult> GetOrderAsync(Guid paymentId)
         {
             try
-            {                
+            {
                 var order = await _paymentQueries.GetPaymentAsync(paymentId);
 
                 return Ok(order);
@@ -61,7 +58,7 @@ namespace Payment.API.Controllers
 
             switch (commandResult)
             {
-                
+
 
                 default:
                     throw new NotSupportedException();

@@ -3,8 +3,6 @@ using Payment.Domain.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Payment.Application.Queries
@@ -40,12 +38,12 @@ namespace Payment.Application.Queries
         {
             var paymentResponse = new PaymentResponse
             {
-                 PaymentId = result.PaymentId,
+                PaymentId = result.PaymentId,
                 GatewayPaymentId = result.GatewayPaymentId,
-                 Card = new Card(result.MaskedCardNumber, result.Expiry),
+                Card = new Card(result.MaskedCardNumber, result.Expiry),
                 Amount = new Money(result.Money, result.Currency),
-                Status = result.Status == "1"? PaymentStatus.Successful : PaymentStatus.Unsuccessful
-            };           
+                Status = result.Status == "1" ? PaymentStatus.Successful : PaymentStatus.Unsuccessful
+            };
 
             return paymentResponse;
         }

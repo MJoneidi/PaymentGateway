@@ -8,25 +8,19 @@ using Payment.Application.Commands.Contracts;
 using Payment.Application.Contracts;
 using Payment.Application.Queries;
 using Payment.Domain.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Payment.Application
 {
     public static class ApplicationServiceRegistration
-    {        
+    {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-           
+
 
             services.AddScoped<IPaymentQueries, PaymentQueries>();
             services.AddScoped<IAcquiringBankAdapter, AcquiringBankAdapter>();
 
-            services.AddSingleton<IConfigurationOptions, ConfigurationOptions>();        
+            services.AddSingleton<IConfigurationOptions, ConfigurationOptions>();
 
             services.AddScoped(provider => new MapperConfiguration(cfg =>
             {

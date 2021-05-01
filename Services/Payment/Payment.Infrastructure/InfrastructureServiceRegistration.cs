@@ -3,11 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Payment.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Payment.Infrastructure.Data.Repositories;
+using Payment.Infrastructure.Data.Repositories.Contracts;
 
 namespace Payment.Infrastructure
 {
@@ -21,9 +18,9 @@ namespace Payment.Infrastructure
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<PaymentDbContext>();
 
-           
-         //   services.AddHostedService<SetupIdentityDataSeeder>();
-            //  services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
 
             return services;
         }

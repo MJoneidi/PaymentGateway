@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AcquiringBank.API.Models.DTO.Requests
 {
     public class PaymentRequest
     {
-        [Required]        
+        [Required]
         public Guid GatewayPaymentId { get; set; }
 
-        [Required]       
+        [Required]
         public double Amount { get; set; }
 
         [Required]
@@ -23,7 +20,7 @@ namespace AcquiringBank.API.Models.DTO.Requests
         public string CardNumber { get; set; }
 
         [Required]
-        public string CardCvv { get; set; }
+        public int CardCvv { get; set; }
 
         [Required]
         public string CardExpiry { get; set; }

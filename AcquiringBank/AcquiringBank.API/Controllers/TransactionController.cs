@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcquiringBank.API.Controllers
@@ -27,7 +26,7 @@ namespace AcquiringBank.API.Controllers
                     TransactionId = new Guid(),
                     ErrorDescription = string.Empty,
                     PaymentStatus = Models.Enums.BankPaymentStatus.Accepted
-                });               
+                });
             }
 
             var message = string.Empty;
