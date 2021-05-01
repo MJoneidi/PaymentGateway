@@ -60,7 +60,7 @@ namespace Payment.API
                     ValidateLifetime = true
                 };
             });
-
+            
             services.AddApplicationServices(Configuration);
         }
 

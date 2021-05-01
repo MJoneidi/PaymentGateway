@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Payment.Application.Commands;
+using Payment.Application.Commands.Contracts;
 using Payment.Application.Queries;
+using Payment.Domain.DTO.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +20,15 @@ namespace Payment.API.Controllers
     {
         private readonly ILogger<PaymentsController> _logger;
         private readonly IPaymentQueries _paymentQueries;
-        public PaymentsController(ILogger<PaymentsController> logger, IPaymentQueries paymentQueries)
-        {
-            _paymentQueries = paymentQueries ?? throw new ArgumentNullException(nameof(paymentQueries));          
+        private readonly ICommandHandler<PaymentCommand> _commandHandler;
+        private readonly IMapper _mapper;
+
+        public PaymentsController(ILogger<PaymentsController> logger, IPaymentQueries paymentQueries, ICommandHandler<PaymentCommand> commandHandler, IMapper modelMapper)
+        {            
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler)); 
+            _paymentQueries = paymentQueries ?? throw new ArgumentNullException(nameof(paymentQueries));
+            _mapper = modelMapper ?? throw new ArgumentNullException(nameof(modelMapper));
         }
 
 
@@ -38,6 +47,24 @@ namespace Payment.API.Controllers
             catch
             {
                 return NotFound();
+            }
+        }
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] PaymentRequest paymentRequest)
+        {
+            var paymentRequestCommand = _mapper.Map<PaymentCommand>(paymentRequest);
+            var commandResult = await _commandHandler.Handle(paymentRequestCommand);
+
+            switch (commandResult)
+            {
+                
+
+                default:
+                    throw new NotSupportedException();
             }
         }
     }

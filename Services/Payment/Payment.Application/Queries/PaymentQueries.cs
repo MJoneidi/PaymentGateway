@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Payment.Domain.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,17 +11,16 @@ namespace Payment.Application.Queries
 {
     public class PaymentQueries : IPaymentQueries
     {
-        private string _connectionString = string.Empty;
-
-        public PaymentQueries(string connectionString)
+        private readonly IConfigurationOptions _configurationOptions;
+        public PaymentQueries(IConfigurationOptions configurationOptions)
         {
-            _connectionString = !string.IsNullOrWhiteSpace(connectionString) ? connectionString : throw new ArgumentNullException(nameof(connectionString));
+            _configurationOptions = configurationOptions ?? throw new ArgumentNullException(nameof(configurationOptions));
         }
 
 
         public async Task<PaymentResponse> GetPaymentAsync(Guid id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_configurationOptions.ConnectionString))
             {
                 connection.Open();
                 var result = await connection.QueryAsync<dynamic>(
