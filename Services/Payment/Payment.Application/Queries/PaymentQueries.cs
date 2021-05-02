@@ -22,8 +22,17 @@ namespace Payment.Application.Queries
             {
                 connection.Open();
                 var result = await connection.QueryAsync<dynamic>(
-                   @"select * FROM Payments 
-                        WHERE o.Id=@id"
+                           @"SELECT [Id]      
+                                    ,[MerchantId]
+                                    ,[TransactionId]
+                                    ,[CurrencyCode]
+                                    ,[Amount]
+                                    ,[CardExpiry]
+                                    ,[CVV]
+                                    ,[CardNumber]
+                                    ,[Status]      
+                             FROM [PaymentsDB].[dbo].[PaymentMethods]
+                             WHERE Id=@id"
                         , new { id }
                     );
 
@@ -38,11 +47,10 @@ namespace Payment.Application.Queries
         {
             var paymentResponse = new PaymentResponse
             {
-                PaymentId = result.PaymentId,
-                GatewayPaymentId = result.GatewayPaymentId,
-                Card = new Card(result.MaskedCardNumber, result.Expiry),
-                Amount = new Money(result.Money, result.Currency),
-                Status = result.Status == "1" ? PaymentStatus.Successful : PaymentStatus.Unsuccessful
+                PaymentId = result[0].Id,                
+                Card = new Card(result[0].CardNumber, result[0].CardExpiry),
+                Amount = new Money(result[0].Amount, result[0].CurrencyCode),
+                Status = result[0].Status == 0 ? PaymentStatus.Successful : PaymentStatus.Unsuccessful
             };
 
             return paymentResponse;

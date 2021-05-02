@@ -24,6 +24,16 @@ namespace Payment.Application.BankAdaptors
             _configurationOptions = configurationOptions ?? throw new ArgumentNullException(nameof(configurationOptions));
         }
 
+
+        /// <summary>
+        /// this method is responsible to call the bank and get the result 
+        /// 
+        /// this part could implement in other ways
+        /// my assumption was we have only one acquiring bank. so I made it as simple as posible
+        /// if we have multiple banks with different implementation of api such as REST or GPRS, it need to write in more generic way and implement this method in each of them separately
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<PaymentResponse> SendRequestAsync(PaymentCommand request)
         {
             try

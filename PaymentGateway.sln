@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcquiringBank.API", "Acquir
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7F75C6FF-3E52-418F-8371-00CC7205C63D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ADBFF14B-D3CA-436F-B423-87D4F96DECA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.UnitTests", "Services\Payment\tests\Payment.UnitTests\Payment.UnitTests.csproj", "{76542B95-1974-463B-80B2-58B6941EB32D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,10 @@ Global
 		{7F75C6FF-3E52-418F-8371-00CC7205C63D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F75C6FF-3E52-418F-8371-00CC7205C63D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F75C6FF-3E52-418F-8371-00CC7205C63D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76542B95-1974-463B-80B2-58B6941EB32D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76542B95-1974-463B-80B2-58B6941EB32D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76542B95-1974-463B-80B2-58B6941EB32D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76542B95-1974-463B-80B2-58B6941EB32D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +70,8 @@ Global
 		{99889665-AC83-42A1-A99A-D2EEA0397EFF} = {1BA85FB6-5F87-478D-A1AA-0A0E7C472BA7}
 		{9DD08CA5-9F05-4682-8E8E-988552489974} = {1BA85FB6-5F87-478D-A1AA-0A0E7C472BA7}
 		{F2442E8E-A5E3-48E3-A0FB-639A48F4BB15} = {8272D657-4334-40A9-AD9B-19069AED3035}
+		{ADBFF14B-D3CA-436F-B423-87D4F96DECA8} = {1BA85FB6-5F87-478D-A1AA-0A0E7C472BA7}
+		{76542B95-1974-463B-80B2-58B6941EB32D} = {ADBFF14B-D3CA-436F-B423-87D4F96DECA8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A53FAE88-4515-4EF6-BA54-877E3E94F529}

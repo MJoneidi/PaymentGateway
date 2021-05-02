@@ -36,30 +36,30 @@ namespace Payment.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(PaymentResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetOrderAsync(Guid paymentId)
+        public async Task<ActionResult> Get(Guid paymentId)
         {
             try
             {
                 var order = await _paymentQueries.GetPaymentAsync(paymentId);
-
                 return Ok(order);
             }
-            catch
+            catch(Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return NotFound();
             }
         }
-
-
-
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] PaymentRequest paymentRequest)
         {
             var paymentRequestCommand = _mapper.Map<PaymentCommand>(paymentRequest);
-            var commandResult = await _commandHandler.Handle(paymentRequestCommand);
+            var commandResult = await _commandHandler.Handle<PaymentCommandResult>(paymentRequestCommand);
 
-            return Ok(commandResult);
+            if (commandResult.Status == Domain.Enums.PaymentStatus.Successful)
+                return Ok(commandResult);
+          
+            return StatusCode(500,  "Error in connection to bank" );
         }
     }
 }

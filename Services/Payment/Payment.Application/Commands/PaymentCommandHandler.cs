@@ -19,7 +19,15 @@ namespace Payment.Application.Commands
             _paymentMethodRepository = paymentMethodRepository ?? throw new ArgumentNullException(nameof(paymentMethodRepository));
         }
 
-        public async Task<ICommandResult> Handle(PaymentCommand command)
+        /// <summary>
+        /// this method will handle a payment request from validation to send request to bank and then record the result
+        /// 
+        /// here was lots of idea, such as prevent duplicate http requests by comparing or a key which is mixed of uniq requestId and merchantId, but it has extra cost of reading, so for now I skip it
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public async Task<PaymentCommandResult> Handle(PaymentCommand command) 
         {
             PaymentResponse response = await _acquiringBankAdapter.SendRequestAsync(command);
 
@@ -40,8 +48,8 @@ namespace Payment.Application.Commands
             };
 
             await _paymentMethodRepository.Add(paymentMethod);
-
-            return this.Success(paymentMethod);
-        }
+            //handle failer
+            return new PaymentCommandResult() { Status= paymentMethod.Status, PaymentResultId = paymentMethod .Id};     
+        }       
     }
 }
