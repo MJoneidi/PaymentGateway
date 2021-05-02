@@ -37,6 +37,8 @@ namespace Payment.API.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest user)
         {
+            _logger.LogInformation($"Login request, Email:{user.Email}, Password:{user.Password}");
+
             if (ModelState.IsValid)
             {
                 // check if the user with the same email exist
@@ -44,6 +46,7 @@ namespace Payment.API.Controllers
 
                 if (existingUser == null)
                 {
+                    _logger.LogWarning($"Invalid authentication request, Email:{user.Email}, Password:{user.Password}");
                     return BadRequest(new RegistrationResponse()
                     {
                         Result = false,
@@ -68,6 +71,7 @@ namespace Payment.API.Controllers
                 }
                 else
                 {
+                    _logger.LogWarning($"Invalid authentication request, Email:{user.Email}, Password:{user.Password}");
                     return BadRequest(new RegistrationResponse()
                     {
                         Result = false,
@@ -78,6 +82,8 @@ namespace Payment.API.Controllers
                     });
                 }
             }
+            else
+                _logger.LogWarning($"Invalid Login request, Email:{user.Email}, Password:{user.Password}");
 
             return BadRequest(new RegistrationResponse()
             {
@@ -114,6 +120,5 @@ namespace Payment.API.Controllers
 
             return jwtToken;
         }
-
     }
 }
