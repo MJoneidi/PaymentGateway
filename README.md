@@ -19,8 +19,31 @@ The payment gateway will need to provide merchants with a way to process a payme
 
 # Technology Stack
 
+Asynchronous Request-Reply pattern
+Command Query Responsibility Segregation (CQRS) 
+Dapper
+
+
+
+Why CQRS
+  > The Command and Query Responsibility Segregation (CQRS) pattern separates read and update operations for a data store. Implementing CQRS in your application can maximize its performance, scalability, and security. 
+  > If separate read and write databases are used, they must be kept in sync. Typically this is accomplished by having the write model publish an event whenever it updates the database. 
+
+Usually CQRS is used with Event sourcing, but because it was out of scope of this task, I made it a little simple. Normally for small project with less request, writhing simple solution which has both read and write in one repository is best choice,  but because of first assumption, ability to scale the project, I chose this design pattern.
+
+
+
 # API
 
 # Test
 
 # Run the project
+
+All you need to do is running this command
+
+```
+docker-compose up
+```
+
+It will user port : 7001 and 7002
+In case, these ports are not empty, you can change the default config in docker files
