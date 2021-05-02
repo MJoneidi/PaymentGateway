@@ -78,17 +78,21 @@ Usually CQRS is used with Event sourcing, but because it was out of scope of thi
   }
   
   response sample :
-  
+  {
+    "paymentResultId": "c113b134-4a1c-48b0-6fb2-08d90d667a61",
+    "status": 0,
+    "errorDescription": ""
+  }
   ```  
   
   3. For retrieve details of a previously made payment
   
    ```
-  url : http://localhost:7001/api/Payments/8caef033-8596-471e-01fe-08d90d497eff
+  url :
+  http://localhost:7001/api/Payments/details?merchantId=3fa85f64-5717-4562-b3fc-2c963f66afa6&paymentId=d672a444-f1de-4345-e4c3-08d90d74c72a
   
-  request json body  :
-  also need to add Bearer token in header 
-  
+  It has two parameter : merchantId, paymentId
+  need to add Bearer token in header. 
   
   
   response sample :
