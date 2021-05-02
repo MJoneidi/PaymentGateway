@@ -3,7 +3,7 @@ using System;
 
 namespace Payment.Domain.DTO.Response
 {
-    public class PaymentResponse
+    public class FinancialResponse
     {
         public Guid TransactionId { get; set; }
         public PaymentStatus PaymentStatus { get; set; }

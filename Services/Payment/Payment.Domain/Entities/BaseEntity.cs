@@ -7,7 +7,7 @@ namespace Payment.Domain.Entities
     {
         [Key]
         public Guid Id { get; set; }
-        public DateTime CreatedDate { get; }
+        public DateTime CreatedDate { get; init; }
         public DateTime ModifiedDate { get; set; }
     }
 }

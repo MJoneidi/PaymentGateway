@@ -29,7 +29,7 @@ namespace Payment.Application.Commands
         /// <returns></returns>
         public async Task<T> Handle<T>(PaymentCommand command) 
         {
-            PaymentResponse response = await _acquiringBankAdapter.SendRequestAsync(command);
+            var response = await _acquiringBankAdapter.SendRequestAsync(command);
 
             var paymentMethod = new PaymentMethod()
             {

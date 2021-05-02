@@ -6,6 +6,6 @@ namespace Payment.Application.Contracts
 {
     public interface IAcquiringBankAdapter
     {
-        Task<PaymentResponse> SendRequestAsync(PaymentCommand request);
+        Task<FinancialResponse> SendRequestAsync(PaymentCommand request);
     }
 }

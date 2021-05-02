@@ -34,7 +34,7 @@ namespace Payment.Application.BankAdaptors
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<PaymentResponse> SendRequestAsync(PaymentCommand request)
+        public async Task<FinancialResponse> SendRequestAsync(PaymentCommand request)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Payment.Application.BankAdaptors
 
                     client.Dispose();
 
-                    return JsonConvert.DeserializeObject<PaymentResponse>(result);
+                    return JsonConvert.DeserializeObject<FinancialResponse>(result);
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace Payment.Application.BankAdaptors
             {
                 _logger.LogError(ex.Message);
             }
-            return new PaymentResponse() { PaymentStatus = PaymentStatus.Unsuccessful };
+            return new FinancialResponse() { PaymentStatus = PaymentStatus.Unsuccessful };
         }
     }
 }
