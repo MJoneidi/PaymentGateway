@@ -27,7 +27,7 @@ namespace Payment.Application.Commands
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public async Task<PaymentCommandResult> Handle(PaymentCommand command) 
+        public async Task<T> Handle<T>(PaymentCommand command) 
         {
             PaymentResponse response = await _acquiringBankAdapter.SendRequestAsync(command);
 
@@ -48,8 +48,11 @@ namespace Payment.Application.Commands
             };
 
             await _paymentMethodRepository.Add(paymentMethod);
-            //handle failer
-            return new PaymentCommandResult() { Status= paymentMethod.Status, PaymentResultId = paymentMethod .Id};     
-        }       
+
+            //need to handle failer 
+            var result = new PaymentCommandResult() { Status = paymentMethod.Status, PaymentResultId = paymentMethod.Id, ErrorDescription = paymentMethod.ErrorDescription };
+            
+            return (T)Convert.ChangeType(result, typeof(T));     
+        }        
     }
 }

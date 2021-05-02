@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Payment.Domain.Configuration;
+using Payment.Domain.DTO.Requests;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -16,7 +17,7 @@ namespace Payment.Application.Queries
         }
 
 
-        public async Task<PaymentResponse> GetPaymentAsync(Guid id)
+        public async Task<PaymentResponse> GetPaymentAsync(Guid merchantId, Guid paymentId)
         {
             using (var connection = new SqlConnection(_configurationOptions.ConnectionString))
             {
@@ -32,8 +33,8 @@ namespace Payment.Application.Queries
                                     ,[CardNumber]
                                     ,[Status]      
                              FROM [PaymentsDB].[dbo].[PaymentMethods]
-                             WHERE Id=@id"
-                        , new { id }
+                             WHERE Id=@paymentId AND MerchantId = @merchantId"
+                        , new { paymentId, merchantId }
                     );
 
                 if (result.AsList().Count == 0)

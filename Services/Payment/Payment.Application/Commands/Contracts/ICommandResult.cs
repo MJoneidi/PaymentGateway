@@ -4,15 +4,10 @@ using System;
 
 namespace Payment.Application.Commands.Contracts
 {
-    public interface ICommandResult 
-    {
-      
-    }
-
-
-    public class PaymentCommandResult : ICommandResult
+    public class PaymentCommandResult 
     {
         public Guid PaymentResultId { get; set; }
         public PaymentStatus Status { get; set; }
+        public string ErrorDescription { get; set; }
     }
 }

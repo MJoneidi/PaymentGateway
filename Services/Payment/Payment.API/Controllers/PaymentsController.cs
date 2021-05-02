@@ -32,34 +32,44 @@ namespace Payment.API.Controllers
         }
 
 
-        [Route("{paymentId:Guid}")]
-        [HttpGet]
+        [HttpGet("details")]
         [ProducesResponseType(typeof(PaymentResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> Get(Guid paymentId)
+        public async Task<ActionResult> Get(Guid merchantId, Guid paymentId)
         {
             try
             {
-                var order = await _paymentQueries.GetPaymentAsync(paymentId);
+                _logger.LogInformation($"----- Get payment details: paymentId, MerchantId:{merchantId}, PaymentId:{paymentId}");
+                var order = await _paymentQueries.GetPaymentAsync(merchantId, paymentId);
                 return Ok(order);
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return NotFound();
+                _logger.LogError(ex.Message);               
             }
+            return StatusCode(500, "Not Found");
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] PaymentRequest paymentRequest)
         {
-            var paymentRequestCommand = _mapper.Map<PaymentCommand>(paymentRequest);
-            var commandResult = await _commandHandler.Handle<PaymentCommandResult>(paymentRequestCommand);
+            try
+            {
+                var paymentRequestCommand = _mapper.Map<PaymentCommand>(paymentRequest);
 
-            if (commandResult.Status == Domain.Enums.PaymentStatus.Successful)
-                return Ok(commandResult);
-          
-            return StatusCode(500,  "Error in connection to bank" );
+                _logger.LogInformation($"----- Sending command: paymentRequestCommand, MerchantId:{paymentRequest.MerchantId}, Amount:{paymentRequest.Amount})");
+
+                var commandResult = await _commandHandler.Handle<PaymentCommandResult>(paymentRequestCommand);
+
+                if (commandResult.Status == Domain.Enums.PaymentStatus.Successful)
+                    return Ok(commandResult);
+                return StatusCode(500, commandResult.ErrorDescription);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return StatusCode(500,  "Internal Error" );
         }
     }
 }
