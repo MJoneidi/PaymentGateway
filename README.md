@@ -117,6 +117,7 @@ Usually CQRS is used with Event sourcing, but because it was out of scope of thi
 
 # Test
 
+
 # Run the project
 
 All you need to do is running this command
@@ -128,4 +129,6 @@ docker-compose up
 It will user port : 7001 and 7002
 In case, these ports are not empty, you can change the default config in docker files
 
-Note : Https is disabled because of certificate issued, but in real production, it should be active
+* Note : Https is disabled because of certificate issued, but in real production, it should be active.
+* Note : First I want to add a gateway (Ocelot) to manage authentication and logging all requests and response in one place, but then I changed my mind to make the project simple.
+* Note : For scalability considerations, it needs to add kubernetes. we are using Helm in order to run dockers on kubernetes. but adding and configuring it needs more time, so I just skipp it for now.
