@@ -115,8 +115,6 @@ Note : my first priritoy was make the project simple, I had to skip some part of
 
 
 
-# Test
-
 
 # Run the project
 
@@ -127,7 +125,9 @@ docker-compose up
 ```
 
 It will user port : 7001 and 7002
-In case, these ports are not empty, you can change the default config in docker files
+In case, these ports are not empty, you can change the default config in docker compose file
+
+
 
 * Note : Https is disabled because of certificate issued, but in real production, it should be active.
 * Note : First I want to add a gateway (Ocelot) to manage authentication and logging all requests and response in one place, but then I changed my mind to make the project simple.
