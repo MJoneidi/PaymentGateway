@@ -33,7 +33,7 @@ Why CQRS
 
 Usually CQRS is used with Event sourcing, but because it was out of scope of this task, I made it a little simple. Normally for small project with less request, writhing simple solution which has both read and write in one repository is best choice,  but because of first assumption, ability to scale the project, I chose this design pattern.
 
-
+Note : my first priritoy was make the project simple, I had to skip some part of CQRS, I know about it. The main idea of using CQRS was, separates read and update operations.
 
 # API
   The api has two controllers
