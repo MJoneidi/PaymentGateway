@@ -16,13 +16,14 @@ The payment gateway will need to provide merchants with a way to process a payme
   3. I assume, we already know the bank and just send our request to one bank which is called `Acquiring bank`
   4. For security considrations, all request and responses will be encrypted via ssl. IP can be used to limit access(for now just skipped)
   5. JwtBearer used for authentication
+  6. Validation on card number is based on Master and Visa card
 
 
 # Technology Stack
 
 Asynchronous Request-Reply pattern
 Command Query Responsibility Segregation (CQRS) 
-Dapper
+Dapper, NLog
 
 
 
@@ -71,10 +72,10 @@ Usually CQRS is used with Event sourcing, but because it was out of scope of thi
   {
     "merchantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "amount": 180,
-    "currency": "usd",
-    "cardNumber": "543535355344",
-    "cardExpiry": "12/02",
-    "cardCvv": 22
+    "currency": "USD",
+	"cardNumber": "5555555555554344",
+	"cardExpiry": "12/22",
+	"cardCvv": 22
   }
   
   response sample :
@@ -98,17 +99,16 @@ Usually CQRS is used with Event sourcing, but because it was out of scope of thi
   response sample :
   
   {
-    "paymentId": "8caef033-8596-471e-01fe-08d90d497eff",
-    "gatewayPaymentId": "00000000-0000-0000-0000-000000000000",
-    "card": {
-      "maskedCardNumber": "**** **** **** 5344",
-      "expiry": "12/02"
-    },
-    "amount": {
-      "currency": "usd",
-      "value": 180
-    },
-    "status": 0
+	  "paymentId": "f923fc9b-8f57-4a8d-a60e-08d90e047bb6",
+	  "card": {
+		"maskedCardNumber": "**** **** **** 4344",
+		"expiry": "12/02"
+	  },
+	  "amount": {
+		"currency": "USD",
+		"value": 180
+	  },
+	  "status": 0
   }
   
   ```  

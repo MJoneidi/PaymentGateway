@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Payment.Application.Commands;
@@ -43,11 +44,11 @@ namespace Payment.API.Controllers
                 var order = await _paymentQueries.GetPaymentAsync(merchantId, paymentId);
                 return Ok(order);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError(ex.Message);               
+                _logger.LogError(ex.Message);
             }
-            return StatusCode(500, "Not Found");
+            return StatusCode(StatusCodes.Status404NotFound, "PaymentId not found");
         }
 
         [HttpPost]
@@ -63,13 +64,13 @@ namespace Payment.API.Controllers
 
                 if (commandResult.Status == Domain.Enums.PaymentStatus.Successful)
                     return Ok(commandResult);
-                return StatusCode(500, commandResult.ErrorDescription);
+                return StatusCode(StatusCodes.Status500InternalServerError, commandResult.ErrorDescription);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
             }
-            return StatusCode(500,  "Internal Error" );
+            return StatusCode(StatusCodes.Status500InternalServerError, "Internal Error");
         }
     }
 }
