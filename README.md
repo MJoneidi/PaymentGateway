@@ -33,7 +33,7 @@ Why CQRS
 
 Usually CQRS is used with Event sourcing, but because it was out of scope of this task, I made it a little simple. Normally for small project with less request, writhing simple solution which has both read and write in one repository is best choice,  but because of first assumption, ability to scale the project, I chose this design pattern.
 
-
+Note : my first priritoy was make the project simple, I had to skip some part of CQRS, I know about it. The main idea of using CQRS was, separates read and update operations. First I want to use MediatR to handle commands, but because it was my first time to use it and time was limited, I'd prefer to go with simpler way for this project.
 
 # API
   The api has two controllers
@@ -115,8 +115,6 @@ Usually CQRS is used with Event sourcing, but because it was out of scope of thi
 
 
 
-# Test
-
 
 # Run the project
 
@@ -127,7 +125,9 @@ docker-compose up
 ```
 
 It will user port : 7001 and 7002
-In case, these ports are not empty, you can change the default config in docker files
+In case, these ports are not empty, you can change the default config in docker compose file
+
+
 
 * Note : Https is disabled because of certificate issued, but in real production, it should be active.
 * Note : First I want to add a gateway (Ocelot) to manage authentication and logging all requests and response in one place, but then I changed my mind to make the project simple.
