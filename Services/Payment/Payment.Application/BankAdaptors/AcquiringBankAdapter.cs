@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Payment.Application.Commands;
-using Payment.Application.Contracts;
+using Payment.Application.BankAdaptors.Contracts;
 using Payment.Domain.Configuration;
 using Payment.Domain.DTO.Response;
 using Payment.Domain.Enums;

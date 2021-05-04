@@ -8,6 +8,7 @@ using Payment.Application.Commands;
 using Payment.Application.Commands.Contracts;
 using Payment.Application.Queries;
 using Payment.Domain.DTO.Requests;
+using Payment.Domain.Exceptions;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -64,12 +65,17 @@ namespace Payment.API.Controllers
 
                 if (commandResult.Status == Domain.Enums.PaymentStatus.Successful)
                     return Ok(commandResult);
-                return StatusCode(StatusCodes.Status500InternalServerError, commandResult.ErrorDescription);
+                return StatusCode(StatusCodes.Status406NotAcceptable, commandResult.ErrorDescription);
+            }
+            catch(PaymentApiException ex)
+            {
+                return StatusCode(StatusCodes.Status405MethodNotAllowed, ex.Message); 
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
             }
+
             return StatusCode(StatusCodes.Status500InternalServerError, "Internal Error");
         }
     }

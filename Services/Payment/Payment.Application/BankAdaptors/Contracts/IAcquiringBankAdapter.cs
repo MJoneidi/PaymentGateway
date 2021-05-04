@@ -2,7 +2,7 @@
 using Payment.Domain.DTO.Response;
 using System.Threading.Tasks;
 
-namespace Payment.Application.Contracts
+namespace Payment.Application.BankAdaptors.Contracts
 {
     public interface IAcquiringBankAdapter
     {

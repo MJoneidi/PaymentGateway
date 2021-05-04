@@ -39,6 +39,7 @@ Note : my first priritoy was make the project simple, I had to skip some part of
   The api has two controllers
   1.AuthController , used for login and create JwtBearer token
   2.PaymentsController , used for processing the payment requests and retrieve details of a previously made payment
+  3.I assume merchant should be define in system and the get valid merchantId, for now only valid "merchantId" is "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   
   *sample requests 
   
