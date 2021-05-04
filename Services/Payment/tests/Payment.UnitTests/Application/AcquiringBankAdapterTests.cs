@@ -1,24 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using Moq.Protected;
 using NUnit.Framework;
 using Payment.Application.BankAdaptors;
 using Payment.Application.Commands;
-using Payment.Application.Commands.Contracts;
-using Payment.Application.Contracts;
 using Payment.Domain.Configuration;
 using Payment.Domain.DTO.Response;
-using Payment.Domain.Entities;
 using Payment.Domain.Enums;
-using Payment.Infrastructure.Data.Repositories.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Payment.UnitTests.Application
 {
@@ -31,21 +19,21 @@ namespace Payment.UnitTests.Application
         private readonly Guid _transactionId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6");
         private readonly Guid _gatewayPaymentId = new Guid("D333A247-B7F5-48AF-B0EC-08D90CD42263");
         private readonly Guid _paymentResultId = new Guid("00000000-0000-0000-0000-000000000000");
-        
+
         private readonly double _amount = 1000.0;
         private readonly string _currencyCode = "USD";
         private readonly string _cardNumber = "1234123412341234";
         private readonly string _cardExpiry = "12/22";
         private readonly int _cvv = 245;
-        
+
         private Mock<ILogger<AcquiringBankAdapter>> _logger;
         private Mock<IConfigurationOptions> _configurationOptions;
-        
+
 
         [SetUp]
         public void Setup()
         {
-            _logger = new Mock<ILogger<AcquiringBankAdapter>> ();
+            _logger = new Mock<ILogger<AcquiringBankAdapter>>();
             _configurationOptions = new Mock<IConfigurationOptions>();
         }
 
@@ -56,7 +44,7 @@ namespace Payment.UnitTests.Application
         //    // Arrange
         //    var request = FakeCommandRequest();
         //    var bankResponse = FakeFinancialResponse();
-           
+
         //    var adapter = new AcquiringBankAdapter(_logger.Object, _configurationOptions.Object);
 
         //    _configurationOptions.Setup(x => x.GatewayPaymentId).Returns(_gatewayPaymentId);
@@ -111,7 +99,7 @@ namespace Payment.UnitTests.Application
             CardCvv = _cvv,
             CardExpiry = _cardExpiry,
             CardNumber = _cardNumber,
-            Currency = _currencyCode,            
+            Currency = _currencyCode,
             MerchantId = _merchantId
         };
     }

@@ -1,19 +1,15 @@
 ﻿using NUnit.Framework;
 using Payment.Domain.DTO.Requests;
-using Payment.Domain.Entities;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Payment.UnitTests.Domain
 {
     public class PaymentRequestTests
-    {     
+    {
         [Test]
-        [TestCase("d672a444-f1de-4345-e4c3-08d90d74c72a", 100, "USD", "5555555555554344", 123, "12/99" )]
+        [TestCase("d672a444-f1de-4345-e4c3-08d90d74c72a", 100, "USD", "5555555555554344", 123, "12/99")]
         public void Pass_validation_paymentrequest_success(Guid merchantId, double amount, string currency, string cardNumber, int cardCvv, string cardExpiry)
         {
             // Arrange

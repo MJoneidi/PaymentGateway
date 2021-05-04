@@ -32,13 +32,13 @@ namespace Payment.Domain.Entities
         {
             base.CreatedDate = DateTime.Now;
         }
-        public PaymentMethod(Guid acquiringBankId, Guid merchantId, string currencyCode, double amount, string cardExpiry, int cvv, string cardNumber): base()
+        public PaymentMethod(Guid acquiringBankId, Guid merchantId, string currencyCode, double amount, string cardExpiry, int cvv, string cardNumber) : base()
         {
             AcquiringBankId = acquiringBankId != Guid.Empty ? acquiringBankId : throw new ArgumentNullException(nameof(acquiringBankId));
-            MerchantId = merchantId != Guid.Empty ? merchantId : throw new ArgumentNullException(nameof(merchantId)); 
+            MerchantId = merchantId != Guid.Empty ? merchantId : throw new ArgumentNullException(nameof(merchantId));
             CurrencyCode = !string.IsNullOrWhiteSpace(currencyCode) ? currencyCode : throw new ArgumentNullException(nameof(currencyCode));
             Amount = amount;
-            CardExpiry = !string.IsNullOrWhiteSpace(cardExpiry) ? cardExpiry : throw new ArgumentNullException(nameof(cardExpiry)); 
+            CardExpiry = !string.IsNullOrWhiteSpace(cardExpiry) ? cardExpiry : throw new ArgumentNullException(nameof(cardExpiry));
             CVV = cvv;
             CardNumber = !string.IsNullOrWhiteSpace(cardNumber) ? cardNumber : throw new ArgumentNullException(nameof(cardNumber));
         }

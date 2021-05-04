@@ -1,5 +1,4 @@
-﻿using Payment.Domain.DTO.Requests;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Payment.Application.Queries

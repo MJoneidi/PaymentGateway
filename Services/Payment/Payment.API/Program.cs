@@ -23,9 +23,9 @@ namespace Payment.API
                 throw;
             }
             finally
-            {                
+            {
                 NLog.LogManager.Shutdown();
-            }            
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -1,6 +1,5 @@
 ﻿using Payment.Application.Commands.Contracts;
 using Payment.Application.Contracts;
-using Payment.Domain.DTO.Response;
 using Payment.Domain.Entities;
 using Payment.Infrastructure.Data.Repositories.Contracts;
 using System;
@@ -23,11 +22,11 @@ namespace Payment.Application.Commands
         /// this method will handle a payment request from validation to send request to bank and then record the result
         /// 
         /// here was lots of idea, such as prevent duplicate http requests by comparing or a key which is mixed of uniq requestId and merchantId, but it has extra cost of reading, so for now I skip it
-        /// 
+        /// here I should add some validation based on business requirement such as validate value of currency or merchant Id is known or not(I try to add them in next days)
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public async Task<T> Handle<T>(PaymentCommand command) 
+        public async Task<T> Handle<T>(PaymentCommand command)
         {
             var response = await _acquiringBankAdapter.SendRequestAsync(command);
 
@@ -51,8 +50,8 @@ namespace Payment.Application.Commands
 
             //need to handle failer 
             var result = new PaymentCommandResult() { Status = paymentMethod.Status, PaymentResultId = paymentMethod.Id, ErrorDescription = paymentMethod.ErrorDescription };
-            
-            return (T)Convert.ChangeType(result, typeof(T));     
-        }        
+
+            return (T)Convert.ChangeType(result, typeof(T));
+        }
     }
 }

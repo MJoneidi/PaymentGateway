@@ -8,9 +8,6 @@ using Payment.Domain.Entities;
 using Payment.Domain.Enums;
 using Payment.Infrastructure.Data.Repositories.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Payment.UnitTests.Application
@@ -21,13 +18,13 @@ namespace Payment.UnitTests.Application
         private readonly Guid _transactionId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6");
         private readonly Guid _gatewayPaymentId = new Guid("D333A247-B7F5-48AF-B0EC-08D90CD42263");
         private readonly Guid _paymentResultId = new Guid("00000000-0000-0000-0000-000000000000");
-        
+
         private readonly double _amount = 1000.0;
         private readonly string _currencyCode = "USD";
         private readonly string _cardNumber = "1234123412341234";
         private readonly string _cardExpiry = "12/22";
         private readonly int _cvv = 245;
-        
+
         private Mock<IAcquiringBankAdapter> _acquiringBankAdapter;
         private Mock<IPaymentMethodRepository> _paymentMethodRepository;
 
@@ -46,7 +43,7 @@ namespace Payment.UnitTests.Application
             // Arrange
             var request = FakeCommandRequest();
             var bankResponse = FakeFinancialResponse();
-            var paymentCommandResult= FakePaymentCommandResult();
+            var paymentCommandResult = FakePaymentCommandResult();
             var handler = new PaymentCommandHandler(_acquiringBankAdapter.Object, _paymentMethodRepository.Object);
 
             _acquiringBankAdapter.Setup(x => x.SendRequestAsync(request)).ReturnsAsync(bankResponse);
@@ -58,7 +55,7 @@ namespace Payment.UnitTests.Application
                                     p.AcquiringBankId == _merchantId &&
                                     p.CardExpiry == _cardExpiry &&
                                     p.CardNumber == _cardNumber &&
-                                    p.CVV == _cvv 
+                                    p.CVV == _cvv
                     )))
                     .Returns(Task.CompletedTask);
 

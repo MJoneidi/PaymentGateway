@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Payment.Domain.Configuration;
-using Payment.Domain.DTO.Requests;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -48,7 +47,7 @@ namespace Payment.Application.Queries
         {
             var paymentResponse = new PaymentResponse
             {
-                PaymentId = result[0].Id,                
+                PaymentId = result[0].Id,
                 Card = new Card(result[0].CardNumber, result[0].CardExpiry),
                 Amount = new Money(result[0].Amount, result[0].CurrencyCode),
                 Status = result[0].Status == 0 ? PaymentStatus.Successful : PaymentStatus.Unsuccessful

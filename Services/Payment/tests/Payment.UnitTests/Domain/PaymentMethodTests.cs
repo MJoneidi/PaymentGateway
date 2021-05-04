@@ -1,10 +1,6 @@
 ﻿using NUnit.Framework;
 using Payment.Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Payment.UnitTests.Domain
 {
@@ -23,7 +19,7 @@ namespace Payment.UnitTests.Domain
 
         [Test]
         public void Create_PaymentMethod_item_success()
-        { 
+        {
             //Act 
             var fakePaymentMethodItem = new PaymentMethod(_acquiringBankId, _merchantId, _currencyCode, _amount, _cardExpiry, _cvv, _cardNumber);
 
@@ -33,7 +29,7 @@ namespace Payment.UnitTests.Domain
 
         [Test]
         public void Create_buyer_item_fail()
-        {   
+        {
             //Act - Assert
             Assert.Throws<ArgumentNullException>(() => new PaymentMethod(_acquiringBankId, _merchantId, string.Empty, _amount, _cardExpiry, _cvv, _cardNumber));
         }
