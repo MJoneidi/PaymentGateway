@@ -11,6 +11,7 @@ using Payment.Application;
 using Payment.Domain.Configuration;
 using Payment.Infrastructure;
 using Payment.Infrastructure.Data;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Text;
 
 namespace Payment.API
@@ -63,12 +64,30 @@ namespace Payment.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, PaymentDbContext dbContext, UserManager<IdentityUser> userManager)
         {
+            app.UseStaticFiles();
+            app.UseSwagger();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment.API v1"));
             }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment.API v1");
+                c.RoutePrefix = string.Empty;
+                c.InjectStylesheet("/swagger-ui/Custom.css");
+                c.InjectJavascript("/swagger-ui/Custom.js");
+                c.DefaultModelRendering(ModelRendering.Example);
+                c.DisplayRequestDuration();
+                c.ShowExtensions();
+                c.EnableFilter();
+            });
+
             StartupDbInitializer.SeedData(dbContext, userManager);
 
             app.UseHttpsRedirection();
