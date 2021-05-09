@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Payment.Domain.DTO.Requests;
 
 namespace Payment.Application.BankAdaptors
 {
@@ -34,7 +35,7 @@ namespace Payment.Application.BankAdaptors
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<FinancialResponse> SendRequestAsync(PaymentCommand request)
+        public async Task<FinancialResponse> SendRequestAsync(PaymentRequest request)
         {
             try
             {

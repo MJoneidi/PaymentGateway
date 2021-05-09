@@ -11,6 +11,8 @@ namespace Payment.Domain.DTO.Requests
         [Required]
         public Guid MerchantId { get; set; }
 
+        public Guid GatewayPaymentId { get; set; }
+
         [Required]
         [Range(0, double.MaxValue)]
         public double Amount { get; set; }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Payment.Application.Commands;
 using Payment.Application.Commands.Contracts;
+using Payment.Application.Processors.Contracts;
 using Payment.Application.Queries;
 using Payment.Domain.DTO.Requests;
 using Payment.Domain.Exceptions;
@@ -22,15 +23,14 @@ namespace Payment.API.Controllers
     {
         private readonly ILogger<PaymentsController> _logger;
         private readonly IPaymentQueries _paymentQueries;
-        private readonly ICommandHandler<PaymentCommand> _commandHandler;
-        private readonly IMapper _mapper;
+        private readonly IPaymentProcessor _paymentProcessor;
+       
 
-        public PaymentsController(ILogger<PaymentsController> logger, IPaymentQueries paymentQueries, ICommandHandler<PaymentCommand> commandHandler, IMapper modelMapper)
+        public PaymentsController(ILogger<PaymentsController> logger, IPaymentQueries paymentQueries, IPaymentProcessor paymentProcessor)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _commandHandler = commandHandler ?? throw new ArgumentNullException(nameof(commandHandler));
-            _paymentQueries = paymentQueries ?? throw new ArgumentNullException(nameof(paymentQueries));
-            _mapper = modelMapper ?? throw new ArgumentNullException(nameof(modelMapper));
+            _paymentProcessor = paymentProcessor ?? throw new ArgumentNullException(nameof(paymentProcessor));
+            _paymentQueries = paymentQueries ?? throw new ArgumentNullException(nameof(paymentQueries));           
         }
 
 
@@ -56,18 +56,14 @@ namespace Payment.API.Controllers
         public async Task<IActionResult> Post([FromBody] PaymentRequest paymentRequest)
         {
             try
-            {
-                var paymentRequestCommand = _mapper.Map<PaymentCommand>(paymentRequest);
+            {     
+                _logger.LogInformation($"----- Getting payment request : MerchantId:{paymentRequest.MerchantId}, Amount:{paymentRequest.Amount})");
 
-                _logger.LogInformation($"----- Sending command: paymentRequestCommand, MerchantId:{paymentRequest.MerchantId}, Amount:{paymentRequest.Amount})");
+                var response = await _paymentProcessor.ProcessAsync(paymentRequest);
 
-                var commandResult = await _commandHandler.Handle<PaymentCommandResult>(paymentRequestCommand);
-
-                if (commandResult.Status == Domain.Enums.PaymentStatus.Successful)
-                    return Ok(commandResult);
-                return StatusCode(StatusCodes.Status406NotAcceptable, commandResult.ErrorDescription);
+                return Ok(response);   
             }
-            catch(PaymentApiException ex)
+            catch (PaymentApiException ex)
             {
                 return StatusCode(StatusCodes.Status405MethodNotAllowed, ex.Message); 
             }

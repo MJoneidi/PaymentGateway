@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Payment.Domain.Enums;
+using System;
 
 namespace Payment.Application.Commands
 {
-    public class PaymentCommand : Command
+    public class CreatePaymentCommand : Command
     {
-        public PaymentCommand()
+        public CreatePaymentCommand()
         { }
 
         public Guid MerchantId { internal get; set; }
 
+        public Guid TransactionId { get; set; }
 
+        public PaymentStatus PaymentStatus { get; set; }
+      
         public Guid GatewayPaymentId { get; set; }
 
         public double Amount { get; set; }
@@ -25,5 +29,7 @@ namespace Payment.Application.Commands
 
 
         public string CardExpiry { get; set; }
+
+        public string ErrorDescription { get; set; }
     }
 }

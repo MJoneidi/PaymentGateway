@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Payment.Application.Commands;
+using Payment.Domain.DTO.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Payment.Application.Validations
 {
-    public class PaymentCommandValidation : AbstractValidator<PaymentCommand>
+    public class PaymentValidation : AbstractValidator<PaymentRequest>
     {
-        public PaymentCommandValidation()
+        public PaymentValidation()
         {
             RuleFor(command => command.Amount).NotEmpty();
             RuleFor(command => command.Currency).NotEmpty().Length(3).Must(BeValidCurrency).WithMessage("Please specify a valid currency value");

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Payment.Application.BankAdaptors;
 using Payment.Application.Commands;
 using Payment.Domain.Configuration;
+using Payment.Domain.DTO.Requests;
 using Payment.Domain.DTO.Response;
 using Payment.Domain.Enums;
 using System;
@@ -73,7 +74,7 @@ namespace Payment.UnitTests.Application
 
             _configurationOptions.Setup(x => x.GatewayPaymentId).Returns(_gatewayPaymentId);
             _configurationOptions.Setup(x => x.ConnectionString).Returns(_connectionString);
-            var request = FakeCommandRequest();
+            var request = FakeRequest();
             var bankResponse = FakeFinancialResponse();
 
             // Act
@@ -93,7 +94,7 @@ namespace Payment.UnitTests.Application
             TransactionId = _transactionId
         };
 
-        private PaymentCommand FakeCommandRequest() => new PaymentCommand()
+        private PaymentRequest FakeRequest() => new PaymentRequest()
         {
             Amount = _amount,
             CardCvv = _cvv,

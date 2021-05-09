@@ -37,60 +37,47 @@ namespace Payment.API.Controllers
         {
             _logger.LogInformation($"Login request, Email:{user.Email}, Password:{user.Password}");
 
-            if (ModelState.IsValid)
-            {
-                // check if the user with the same email exist
-                var existingUser = await _userManager.FindByEmailAsync(user.Email);
 
-                if (existingUser == null)
+            // check if the user with the same email exist
+            var existingUser = await _userManager.FindByEmailAsync(user.Email);
+
+            if (existingUser == null)
+            {
+                _logger.LogWarning($"Invalid authentication request, Email:{user.Email}, Password:{user.Password}");
+                return BadRequest(new RegistrationResponse()
                 {
-                    _logger.LogWarning($"Invalid authentication request, Email:{user.Email}, Password:{user.Password}");
-                    return BadRequest(new RegistrationResponse()
-                    {
-                        Result = false,
-                        Errors = new List<string>()
+                    Result = false,
+                    Errors = new List<string>()
                         {
                            "Invalid authentication request"
                         }
-                    });
-                }
+                });
+            }
 
-                var isCorrect = await _userManager.CheckPasswordAsync(existingUser, user.Password);
+            var isCorrect = await _userManager.CheckPasswordAsync(existingUser, user.Password);
 
-                if (isCorrect)
+            if (isCorrect)
+            {
+                var jwtToken = GenerateJwtToken(existingUser);
+
+                return Ok(new RegistrationResponse()
                 {
-                    var jwtToken = GenerateJwtToken(existingUser);
-
-                    return Ok(new RegistrationResponse()
-                    {
-                        Result = true,
-                        Token = jwtToken
-                    });
-                }
-                else
+                    Result = true,
+                    Token = jwtToken
+                });
+            }
+            else
+            {
+                _logger.LogWarning($"Invalid authentication request, Email:{user.Email}, Password:{user.Password}");
+                return BadRequest(new RegistrationResponse()
                 {
-                    _logger.LogWarning($"Invalid authentication request, Email:{user.Email}, Password:{user.Password}");
-                    return BadRequest(new RegistrationResponse()
-                    {
-                        Result = false,
-                        Errors = new List<string>()
+                    Result = false,
+                    Errors = new List<string>()
                         {
                             "Invalid authentication request"
                         }
-                    });
-                }
+                });
             }
-            else
-                _logger.LogWarning($"Invalid Login request, Email:{user.Email}, Password:{user.Password}");
-
-            return BadRequest(new RegistrationResponse()
-            {
-                Result = false,
-                Errors = new List<string>()
-                {
-                  "Invalid payload"
-                }
-            });
         }
 
         private string GenerateJwtToken(IdentityUser user)

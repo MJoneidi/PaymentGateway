@@ -45,46 +45,35 @@ namespace Payment.UnitTests.Application
         public void PaymentCommandHandler_ValidRequest_Success()
         {
             // Arrange
-            var request = FakeCommandRequest();
-            var bankResponse = FakeFinancialResponse();
-            var paymentCommandResult = FakePaymentCommandResult();
-            var handler = new PaymentCommandHandler(_logger.Object,_acquiringBankAdapter.Object, _paymentMethodRepository.Object);
+            var command = FakeCommandRequest();
            
-
-            _acquiringBankAdapter.Setup(x => x.SendRequestAsync(request)).ReturnsAsync(bankResponse);
-
-            _paymentMethodRepository.Setup(x => x.Add(
-                    It.Is<PaymentMethod>(
-                                    p => p.Amount == _amount &&
-                                    p.CurrencyCode == _currencyCode &&
-                                    p.AcquiringBankId == _merchantIdValid &&
-                                    p.CardExpiry == _cardExpiry &&
-                                    p.CardNumber == _cardNumber &&
-                                    p.CVV == _cvv
-                    )))
+            var handler = new PaymentCommandHandler(_logger.Object, _paymentMethodRepository.Object);
+         
+            _paymentMethodRepository.Setup(x => x.Add(It.Is<PaymentMethod>(p => 
+                p.Id == command.Id &&
+                p.AcquiringBankId == _merchantIdValid &&
+                p.MerchantId == _merchantIdValid &&
+                p.Amount == command.Amount &&
+                p.CardExpiry == command.CardExpiry &&
+                p.CardNumber == command.CardNumber &&
+                p.CurrencyCode == command.Currency &&
+                p.CVV == command.CardCvv &&
+                p.TransactionId == command.TransactionId &&
+                p.Status == command.PaymentStatus &&
+                p.ErrorDescription == command.ErrorDescription
+                )))
                     .Returns(Task.CompletedTask);
 
+
             // Act
-            var result = handler.Handle<PaymentCommandResult>(request).Result;
+             handler.Handle(command).Wait();
 
 
-            //Assert
-            Assert.AreEqual(result.Status, paymentCommandResult.Status);
-            _acquiringBankAdapter.Verify(x => x.SendRequestAsync(request), Times.Once);
+            //Assert          
+            _paymentMethodRepository.Verify(x => x.Add(It.IsAny<PaymentMethod>()), Times.Once);
         }
 
-        private PaymentCommandResult FakePaymentCommandResult() => new PaymentCommandResult()
-        {
-            Status = PaymentStatus.Successful,
-            PaymentResultId = _paymentResultId
-        };
-        private FinancialResponse FakeFinancialResponse() => new FinancialResponse()
-        {
-            PaymentStatus = PaymentStatus.Successful,
-            TransactionId = _transactionId
-        };
-
-        private PaymentCommand FakeCommandRequest() => new PaymentCommand()
+        private CreatePaymentCommand FakeCommandRequest() => new CreatePaymentCommand()
         {
             Amount = _amount,
             CardCvv = _cvv,

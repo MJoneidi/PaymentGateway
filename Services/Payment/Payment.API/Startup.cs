@@ -65,16 +65,9 @@ namespace Payment.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, PaymentDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             app.UseStaticFiles();
-            app.UseSwagger();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            app.UseSwagger();           
+            app.UseHsts();
+          
 
             app.UseSwaggerUI(c =>
             {

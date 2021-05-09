@@ -6,6 +6,8 @@ using Payment.Application.BankAdaptors;
 using Payment.Application.BankAdaptors.Contracts;
 using Payment.Application.Commands;
 using Payment.Application.Commands.Contracts;
+using Payment.Application.Processors;
+using Payment.Application.Processors.Contracts;
 using Payment.Application.Queries;
 using Payment.Domain.Configuration;
 
@@ -26,7 +28,8 @@ namespace Payment.Application
                 cfg.AddProfile(new MapperProfile());
             }).CreateMapper());
 
-            services.AddScoped<ICommandHandler<PaymentCommand>, PaymentCommandHandler>();
+            services.AddScoped<ICommandHandler<CreatePaymentCommand>, PaymentCommandHandler>();
+            services.AddScoped<IPaymentProcessor, PaymentProcessor>();
             return services;
         }
     }
