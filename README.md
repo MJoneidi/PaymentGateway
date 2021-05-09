@@ -133,3 +133,15 @@ In case, these ports are not empty, you can change the default config in docker 
 * Note : Https is disabled because of certificate issued, but in real production, it should be active.
 * Note : First I want to add a gateway (Ocelot) to manage authentication and logging all requests and response in one place, but then I changed my mind to make the project simple.
 * Note : For scalability considerations, it needs to add kubernetes. we are using Helm in order to run dockers on kubernetes. but adding and configuring it needs more time, so I just skipp it for now.
+
+
+# History of commits
+All my commits which has codes, commited by this name "Mohammad Joneidi" and all the change readme file which I did it in github directly done by this name "MJoneid"
+
+Samples
+1. Mohammad Joneidi committed 1 minute ago
+2. MJoneidi committed 6 days ago
+
+It's because my official git account which I work for my current company set in VS by this name "Mohammadi Joneidi"
+
+
